@@ -2,6 +2,7 @@ import type z from "zod";
 import {
   GetAvailabilityRequestSchema,
   GetWeatherRequestSchema,
+  WeatherResponseSchema,
   type DataSets,
 } from "./models.js";
 
@@ -45,7 +46,7 @@ export class WeatherKit {
    */
   async getWeather(
     request: z.infer<typeof GetWeatherRequestSchema>,
-  ): Promise<any> {
+  ): Promise<z.infer<typeof WeatherResponseSchema>> {
     const parsedRequest = this.validateParameters
       ? GetWeatherRequestSchema.parse(request)
       : request;
