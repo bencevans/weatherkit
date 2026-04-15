@@ -160,6 +160,243 @@ export const PressureTrendSchema = z.union([
 
 export type PressureTrend = z.infer<typeof PressureTrendSchema>;
 
+export const ConditionCodeCategorySchema = z.enum([
+  "visibility",
+  "wind",
+  "precipitation",
+  "hazardous",
+  "winter-precipitation",
+  "hazardous-winter",
+  "tropical-hazard",
+]);
+
+export type ConditionCodeCategory = z.infer<
+  typeof ConditionCodeCategorySchema
+>;
+
+const ConditionCodeValues = [
+  "BlowingDust",
+  "Clear",
+  "Cloudy",
+  "Foggy",
+  "Haze",
+  "MostlyClear",
+  "MostlyCloudy",
+  "PartlyCloudy",
+  "Smoky",
+  "Breezy",
+  "Windy",
+  "Drizzle",
+  "HeavyRain",
+  "IsolatedThunderstorms",
+  "Rain",
+  "SunShowers",
+  "ScatteredThunderstorms",
+  "StrongStorms",
+  "Thunderstorms",
+  "Frigid",
+  "Hail",
+  "Hot",
+  "Flurries",
+  "Sleet",
+  "Snow",
+  "SunFlurries",
+  "WintryMix",
+  "Blizzard",
+  "BlowingSnow",
+  "FreezingDrizzle",
+  "FreezingRain",
+  "HeavySnow",
+  "Hurricane",
+  "TropicalStorm",
+] as const;
+
+export const ConditionCodeSchema = z
+  .enum(ConditionCodeValues)
+  .describe("The code representing a weather condition.");
+
+export type ConditionCode = z.infer<typeof ConditionCodeSchema>;
+
+export interface ConditionCodeDefinition {
+  code: ConditionCode;
+  description: string;
+  type: ConditionCodeCategory;
+}
+
+export const conditionCodes: ConditionCodeDefinition[] = [
+  {
+    code: "BlowingDust",
+    description: "Blowing dust or sandstorm",
+    type: "visibility",
+  },
+  {
+    code: "Clear",
+    description: "Clear",
+    type: "visibility",
+  },
+  {
+    code: "Cloudy",
+    description: "Cloudy, overcast conditions",
+    type: "visibility",
+  },
+  {
+    code: "Foggy",
+    description: "Fog",
+    type: "visibility",
+  },
+  {
+    code: "Haze",
+    description: "Haze",
+    type: "visibility",
+  },
+  {
+    code: "MostlyClear",
+    description: "Mostly clear",
+    type: "visibility",
+  },
+  {
+    code: "MostlyCloudy",
+    description: "Mostly cloudy",
+    type: "visibility",
+  },
+  {
+    code: "PartlyCloudy",
+    description: "Partly cloudy",
+    type: "visibility",
+  },
+  {
+    code: "Smoky",
+    description: "Smoky",
+    type: "visibility",
+  },
+  {
+    code: "Breezy",
+    description: "Breezy, light wind",
+    type: "wind",
+  },
+  {
+    code: "Windy",
+    description: "Windy",
+    type: "wind",
+  },
+  {
+    code: "Drizzle",
+    description: "Drizzle or light rain",
+    type: "precipitation",
+  },
+  {
+    code: "HeavyRain",
+    description: "Heavy rain",
+    type: "precipitation",
+  },
+  {
+    code: "IsolatedThunderstorms",
+    description: "Thunderstorms covering less than 1/8 of the forecast area",
+    type: "precipitation",
+  },
+  {
+    code: "Rain",
+    description: "Rain",
+    type: "precipitation",
+  },
+  {
+    code: "SunShowers",
+    description: "Rain with visible sun",
+    type: "precipitation",
+  },
+  {
+    code: "ScatteredThunderstorms",
+    description:
+      "Numerous thunderstorms spread across up to 50% of the forecast area",
+    type: "precipitation",
+  },
+  {
+    code: "StrongStorms",
+    description: "Notably strong thunderstorms",
+    type: "precipitation",
+  },
+  {
+    code: "Thunderstorms",
+    description: "Thunderstorms",
+    type: "precipitation",
+  },
+  {
+    code: "Frigid",
+    description: "Frigid conditions, low temperatures, or ice crystals",
+    type: "hazardous",
+  },
+  {
+    code: "Hail",
+    description: "Hail",
+    type: "hazardous",
+  },
+  {
+    code: "Hot",
+    description: "High temperatures",
+    type: "hazardous",
+  },
+  {
+    code: "Flurries",
+    description: "Flurries or light snow",
+    type: "winter-precipitation",
+  },
+  {
+    code: "Sleet",
+    description: "Sleet",
+    type: "winter-precipitation",
+  },
+  {
+    code: "Snow",
+    description: "Snow",
+    type: "winter-precipitation",
+  },
+  {
+    code: "SunFlurries",
+    description: "Snow flurries with visible sun",
+    type: "winter-precipitation",
+  },
+  {
+    code: "WintryMix",
+    description: "Wintry mix",
+    type: "winter-precipitation",
+  },
+  {
+    code: "Blizzard",
+    description: "Blizzard",
+    type: "hazardous-winter",
+  },
+  {
+    code: "BlowingSnow",
+    description: "Blowing or drifting snow",
+    type: "hazardous-winter",
+  },
+  {
+    code: "FreezingDrizzle",
+    description: "Freezing drizzle or light rain",
+    type: "hazardous-winter",
+  },
+  {
+    code: "FreezingRain",
+    description: "Freezing rain",
+    type: "hazardous-winter",
+  },
+  {
+    code: "HeavySnow",
+    description: "Heavy snow",
+    type: "hazardous-winter",
+  },
+  {
+    code: "Hurricane",
+    description: "Hurricane",
+    type: "tropical-hazard",
+  },
+  {
+    code: "TropicalStorm",
+    description: "Tropical storm",
+    type: "tropical-hazard",
+  },
+];
+
 export const WeatherMetadataSchema = z.object({
   attributionURL: z.string().url(),
   expireTime: z.iso.datetime(),
@@ -192,9 +429,9 @@ export const CurrentWeatherSchema = z.object({
   cloudCoverLowAltPct: z.number().min(0).max(1).optional(),
   cloudCoverMidAltPct: z.number().min(0).max(1).optional(),
   cloudCoverHighAltPct: z.number().min(0).max(1).optional(),
-  conditionCode: z
-    .string()
-    .describe("The code representing the current weather condition."),
+  conditionCode: ConditionCodeSchema.describe(
+    "The code representing the current weather condition.",
+  ),
   daylight: z
     .boolean()
     .optional()
@@ -244,9 +481,9 @@ export const DayPartForecastSchema = z.object({
     .describe(
       "The percentage of the sky covered with clouds during the period, from 0 to 1.",
     ),
-  conditionCode: z
-    .string()
-    .describe("An enumeration value indicating the condition at the time."),
+  conditionCode: ConditionCodeSchema.describe(
+    "An enumeration value indicating the condition at the time.",
+  ),
   forecastEnd: z.iso
     .datetime()
     .describe("The ending date and time of the forecast."),
@@ -315,9 +552,9 @@ export const DayPartForecastSchema = z.object({
 export type DayPartForecast = z.infer<typeof DayPartForecastSchema>;
 
 export const DayWeatherConditionsSchema = z.object({
-  conditionCode: z
-    .string()
-    .describe("The code representing the forecasted weather condition."),
+  conditionCode: ConditionCodeSchema.describe(
+    "The code representing the forecasted weather condition.",
+  ),
   daytimeForecast: DayPartForecastSchema.optional().describe(
     "The forecast between 7 AM and 7 PM for the day.",
   ),
@@ -475,9 +712,9 @@ export const HourWeatherConditionsSchema = z.object({
     .describe(
       "The percentage of the sky covered with clouds during the period, from 0 to 1.",
     ),
-  conditionCode: z
-    .string()
-    .describe("An enumeration value indicating the condition at the time."),
+  conditionCode: ConditionCodeSchema.describe(
+    "An enumeration value indicating the condition at the time.",
+  ),
   daylight: z
     .boolean()
     .optional()

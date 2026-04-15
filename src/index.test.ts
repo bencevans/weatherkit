@@ -1,11 +1,31 @@
 import { describe, expect, it } from "vitest";
-import { WeatherKit } from "./index.js";
+import {
+  ConditionCodeSchema,
+  WeatherKit,
+  conditionCodes,
+} from "./index.js";
 import {
   DataSetsSchema,
   WeatherResponseSchema,
   type DataSets,
 } from "./models.js";
 import z from "zod";
+
+describe("Condition codes", () => {
+  it("exports documented WeatherKit condition codes", () => {
+    expect(conditionCodes).toHaveLength(34);
+    expect(conditionCodes.every(({ code }) => ConditionCodeSchema.safeParse(code).success)).toBe(true);
+    expect(conditionCodes.find(({ code }) => code === "Clear")).toEqual({
+      code: "Clear",
+      description: "Clear",
+      type: "visibility",
+    });
+  });
+
+  it("rejects unknown condition codes", () => {
+    expect(() => ConditionCodeSchema.parse("ThunderSnow")).toThrow();
+  });
+});
 
 describe("WeatherKit integration", () => {
   const integrationKey = process.env.APPLE_WEATHERKIT_API_KEY;

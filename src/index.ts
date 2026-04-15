@@ -5,6 +5,8 @@ import {
   type DataSets,
 } from "./models.js";
 
+export * from "./models.js";
+
 export class WeatherKit {
   private apiKey: string;
   private validateParameters: boolean;
